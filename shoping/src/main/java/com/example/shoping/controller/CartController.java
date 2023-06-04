@@ -23,12 +23,14 @@ public class CartController {
         return ResponseEntity.ok(cart);
     }
     @PutMapping("/id/{cartId}/quantity/{quantity}")
+    @CrossOrigin(value = "**")
     public ResponseEntity<CartDto> updateCartQuantity(@PathVariable Integer cartId, @PathVariable Integer quantity){
         CartDto cart=this.cartService.updateCartQuantity(cartId,quantity);
         return ResponseEntity.ok(cart);
 
     }
     @PutMapping("/disable/{cartId}")
+    @CrossOrigin(value = "**")
     public ResponseEntity<CartDto> disableCart(@PathVariable Integer cartId){
         CartDto cart=this.cartService.makeCartInactive(cartId);
         return ResponseEntity.ok(cart);

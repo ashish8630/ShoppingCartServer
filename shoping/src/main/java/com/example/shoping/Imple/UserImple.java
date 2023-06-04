@@ -16,13 +16,15 @@ public class UserImple implements UserService {
     private UserRepository userRepository;
     @Autowired
     private ModelMapper modelMapper;
+
+
     @Override
-    public UserDto createUser(String role,UserDto userDto) {
+    public UserDto createUser(String role, UserDto userDto) {
         userDto.setUserId(UUID.randomUUID().toString());
         userDto.setRole(role);
-        User user=this.modelMapper.map(userDto,User.class);
-        User createdUser=this.userRepository.save(user);
-        return this.modelMapper.map(createdUser,UserDto.class);
+        User user = modelMapper.map(userDto, User.class);
+        User createdUser = userRepository.save(user);
+        return modelMapper.map(createdUser, UserDto.class);
     }
 
     @Override
@@ -42,19 +44,14 @@ public class UserImple implements UserService {
 
     }
 
-    @Override
     public UserDto login(UserDto userDto) {
         String email = userDto.getEmail();
         String password = userDto.getPassword();
 
         // Find user by email
         User user = userRepository.findByEmail(email);
-        System.out.println(user);
-        System.out.println(email);
-        System.out.println(password);
 
         if (user != null && user.getPassword().equals(password)) {
-
             userDto.setRole(user.getRole());
             userDto.setName(user.getName());
             userDto.setUserId(user.getUserId());
@@ -62,7 +59,6 @@ public class UserImple implements UserService {
 
             return loggedInUserDto;
         } else {
-            System.out.println("hello");
             return null;
         }
     }
