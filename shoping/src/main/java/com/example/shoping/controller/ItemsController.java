@@ -61,4 +61,8 @@ public class ItemsController {
         User user=this.userRepository.findById(userId).orElseThrow();
         return ResponseEntity.ok(this.itemService.getAllItemsByUser(user));
     }
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<List<ItemsDto>> getItemsByCategory(@PathVariable Integer categoryId){
+        return ResponseEntity.ok(this.itemService.getAllItemByCategory(categoryId));
+    }
 }

@@ -1,8 +1,10 @@
 package com.example.shoping.Imple;
 
 import com.example.shoping.dto.ItemsDto;
+import com.example.shoping.entities.Categories;
 import com.example.shoping.entities.Items;
 import com.example.shoping.entities.User;
+import com.example.shoping.repositories.CategoryRepository;
 import com.example.shoping.repositories.ItemRepository;
 import com.example.shoping.repositories.UserRepository;
 import com.example.shoping.services.ItemService;
@@ -22,10 +24,14 @@ public class ItemImple implements ItemService {
     private ModelMapper modelMapper;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
     @Override
     public ItemsDto createItem(ItemBody itemBody) {
         User user=this.userRepository.findById(itemBody.getUserId()).orElseThrow();
+        Categories categories=this.categoryRepository.findById(itemBody.getCategoryId()).orElseThrow();
         Items items=new Items();
+        items.setCategory(categories);
         items.setUser(user);
         items.setDescription(itemBody.getDescription());
         items.setName(itemBody.getName());
@@ -79,6 +85,15 @@ public class ItemImple implements ItemService {
     @Override
     public List<ItemsDto> getAllItemsByUser(User user) {
         List<Items> items=this.itemRepository.findByUser(user);
+        List<ItemsDto> itemsDtos=items.stream().map((item)->this.modelMapper.map(item,ItemsDto.class)).collect(Collectors.toList());
+
+        return itemsDtos;
+    }
+
+    @Override
+    public List<ItemsDto> getAllItemByCategory(Integer categoryId) {
+        Categories categories = this.categoryRepository.findById(categoryId).orElseThrow();
+        List<Items> items=this.itemRepository.findByCategory(categories);
         List<ItemsDto> itemsDtos=items.stream().map((item)->this.modelMapper.map(item,ItemsDto.class)).collect(Collectors.toList());
 
         return itemsDtos;

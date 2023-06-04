@@ -28,6 +28,9 @@ public class Items {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false)
     private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="categoryId",nullable = false)
+    private Categories category;
     @OneToMany(mappedBy = "item",cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Cart> cart=new HashSet<>();

@@ -17,4 +17,5 @@ public class ItemBody {
     private double price;
     private String imageUrl;
     private String userId;
+    private Integer categoryId;
 }

@@ -1,5 +1,6 @@
 package com.example.shoping.dto;
 
+import com.example.shoping.entities.Categories;
 import com.example.shoping.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

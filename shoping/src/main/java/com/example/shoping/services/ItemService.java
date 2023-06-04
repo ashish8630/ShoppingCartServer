@@ -18,4 +18,5 @@ public interface ItemService {
     ItemsDto getItemById(Integer itemId);
     List<ItemsDto> getAllItems();
     List<ItemsDto> getAllItemsByUser(User user);
+    List<ItemsDto> getAllItemByCategory(Integer categoryId);
 }
