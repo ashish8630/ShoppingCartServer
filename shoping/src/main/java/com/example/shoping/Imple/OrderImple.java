@@ -9,6 +9,9 @@ import com.example.shoping.services.OrderService;
 import com.example.shoping.utils.OrderBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,6 +50,7 @@ public class OrderImple implements OrderService
         orders.setActive(true);
         orders.setDelivery(false);
         orders.setTotal(total);
+        orders.setCreatedDate(LocalDate.now());
         Orders orders1=this.ordersRepository.save(orders);
         return orders1;
 
@@ -56,7 +60,17 @@ public class OrderImple implements OrderService
     public List<Orders> getActiveAndUndeliveredOrdersByUser(String userId) {
         User user=this.userRepository.findById(userId).orElseThrow();
         List<Orders> orders=this.ordersRepository.findActiveNotDeliveredOrdersByUser(user);
-        return orders;
+        List<Orders> updatedOrders = orders.stream().map(order -> {
+            List<Cart> carts = new ArrayList<>();
+            for (Integer id : order.getCartValue()) {
+                Cart cart = this.cartRepository.findById(id).orElseThrow();
+                carts.add(cart);
+            }
+            order.setCarts(carts);
+
+            return order;
+        }).collect(Collectors.toList());
+        return updatedOrders;
     }
 
     @Override
@@ -79,7 +93,17 @@ public class OrderImple implements OrderService
     public List<Orders> getActiveAndDeliveredOrdersByUser(String userId) {
         User user=this.userRepository.findById(userId).orElseThrow();
         List<Orders> orders=this.ordersRepository.findActiveDeliveredOrdersByUser(user);
-        return orders;
+        List<Orders> updatedOrders = orders.stream().map(order -> {
+            List<Cart> carts = new ArrayList<>();
+            for (Integer id : order.getCartValue()) {
+                Cart cart = this.cartRepository.findById(id).orElseThrow();
+                carts.add(cart);
+            }
+            order.setCarts(carts);
+
+            return order;
+        }).collect(Collectors.toList());
+        return updatedOrders;
     }
 
     @Override

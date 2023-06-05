@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -43,6 +44,19 @@ public class UserImple implements UserService {
         User user=this.userRepository.findById(id).orElseThrow();
         return user;
 
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        try{
+            User user=this.userRepository.findByEmail(email);
+            if(user!=null){
+                return  user;
+            }
+        } catch (Exception e) {
+return null;        }
+
+        return null;
     }
 
     public User login(User userDto) {

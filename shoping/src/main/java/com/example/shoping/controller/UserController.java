@@ -4,6 +4,7 @@ package com.example.shoping.controller;
 import com.example.shoping.entities.User;
 import com.example.shoping.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +33,11 @@ public class UserController {
     public ResponseEntity<User> login(@RequestBody User userDto) {
         User userDto1 = this.userService.login(userDto);
         return ResponseEntity.ok().body(userDto1);
+    }
+    @GetMapping("/userByEmail/{email}")
+    public ResponseEntity<User> getUserByEmail(@PathVariable String email){
+        User user=this.userService.getUserByEmail(email);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
 

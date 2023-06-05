@@ -8,7 +8,7 @@ public interface UserService {
     User createUser(String role, User userDto);
     User updateUserById(User userDto,String userId);
     User getUserById(String id);
-
+    User getUserByEmail(String email);
     User login(User userDto);
 
 }

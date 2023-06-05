@@ -1,6 +1,8 @@
 package com.example.shoping.entities;
 
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -39,4 +41,5 @@ public class Orders {
     @CollectionTable(name = "cart_value", joinColumns = @JoinColumn(name = "order_id"))
     @Column(name = "value")
     private List<Integer> cartValue;
+    private LocalDate createdDate;
 }
