@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class OrderImple implements OrderService
 {
@@ -27,6 +29,7 @@ public class OrderImple implements OrderService
         User user=this.userRepository.findById(orderBody.getUserId()).orElseThrow();
         Address address=this.addressRepository.findById(orderBody.getAddressId()).orElseThrow();
         List<Cart> carts=new ArrayList<>();
+        List<Integer> cartIds=new ArrayList<>();
         double total=0.0;
         for(Integer id:orderBody.getCartId()){
             Cart cart=this.cartRepository.findById(id).orElseThrow();
@@ -34,8 +37,10 @@ public class OrderImple implements OrderService
             this.cartRepository.save(cart);
             total+=(cart.getItem().getPrice()*cart.getQuantity());
             carts.add(cart);
+            cartIds.add(id);
         }
         Orders orders=new Orders();
+        orders.setCartValue(cartIds);
         orders.setCarts(carts);
         orders.setAddress(address);
         orders.setUser(user);
@@ -79,7 +84,20 @@ public class OrderImple implements OrderService
 
     @Override
     public List<Orders> getAllActiveOrders() {
-        List<Orders> orders=this.ordersRepository.findActiveOrders();
-        return orders;
+        List<Orders> orders = this.ordersRepository.findActiveOrders();
+
+        List<Orders> updatedOrders = orders.stream().map(order -> {
+            List<Cart> carts = new ArrayList<>();
+            for (Integer id : order.getCartValue()) {
+                Cart cart = this.cartRepository.findById(id).orElseThrow();
+                carts.add(cart);
+            }
+            order.setCarts(carts);
+
+            return order;
+        }).collect(Collectors.toList()); // Collect the modified orders into a new list
+
+        return updatedOrders;
     }
-}
+    }
+

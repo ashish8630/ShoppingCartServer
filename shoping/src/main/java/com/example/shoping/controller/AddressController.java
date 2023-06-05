@@ -1,8 +1,6 @@
 package com.example.shoping.controller;
 
-import com.example.shoping.dto.ItemsDto;
 import com.example.shoping.entities.Address;
-import com.example.shoping.entities.User;
 import com.example.shoping.services.AddressService;
 import com.example.shoping.utils.AddressBody;
 import org.springframework.beans.factory.annotation.Autowired;

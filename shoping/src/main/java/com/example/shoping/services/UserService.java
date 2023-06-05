@@ -1,14 +1,14 @@
 package com.example.shoping.services;
 
-import com.example.shoping.dto.UserDto;
+import com.example.shoping.entities.User;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface UserService {
-    UserDto createUser(String role,UserDto userDto);
-    UserDto updateUserById(UserDto userDto,String userId);
-    UserDto getUserById(String id);
+    User createUser(String role, User userDto);
+    User updateUserById(User userDto,String userId);
+    User getUserById(String id);
 
-    UserDto login(UserDto userDto);
+    User login(User userDto);
 
 }

@@ -1,6 +1,6 @@
 package com.example.shoping.Imple;
 
-import com.example.shoping.dto.ItemsDto;
+
 import com.example.shoping.entities.Categories;
 import com.example.shoping.entities.Items;
 import com.example.shoping.entities.User;
@@ -27,7 +27,7 @@ public class ItemImple implements ItemService {
     @Autowired
     private CategoryRepository categoryRepository;
     @Override
-    public ItemsDto createItem(ItemBody itemBody) {
+    public Items createItem(ItemBody itemBody) {
         User user=this.userRepository.findById(itemBody.getUserId()).orElseThrow();
         Categories categories=this.categoryRepository.findById(itemBody.getCategoryId()).orElseThrow();
         Items items=new Items();
@@ -39,27 +39,27 @@ public class ItemImple implements ItemService {
         items.setImageUrl(itemBody.getImageUrl());
         items.setStockQuantity(itemBody.getStockQuantity());
         Items createdItem=this.itemRepository.save(items);
-        return this.modelMapper.map(createdItem,ItemsDto.class);
+        return createdItem;
 
     }
 
     @Override
-    public ItemsDto updateStock(Integer quantity, Integer itemId) {
+    public Items updateStock(Integer quantity, Integer itemId) {
         Items items=this.itemRepository.findById(itemId).orElseThrow();
         items.setStockQuantity(quantity);
         Items newItem=this.itemRepository.save(items);
-        return this.modelMapper.map(newItem,ItemsDto.class);
+        return newItem;
     }
 
     @Override
-    public ItemsDto updateItem(Integer itemId, ItemsDto itemsDto) {
+    public Items updateItem(Integer itemId, Items itemsDto) {
         Items items=this.itemRepository.findById(itemId).orElseThrow();
         items.setStockQuantity(itemsDto.getStockQuantity());
         items.setName(itemsDto.getName());
         items.setDescription(itemsDto.getDescription());
         items.setPrice(itemsDto.getPrice());
         Items newItem=this.itemRepository.save(items);
-        return this.modelMapper.map(newItem,ItemsDto.class);
+        return newItem;
     }
 
     @Override
@@ -69,33 +69,29 @@ public class ItemImple implements ItemService {
     }
 
     @Override
-    public ItemsDto getItemById(Integer itemId) {
+    public Items getItemById(Integer itemId) {
         Items items=this.itemRepository.findById(itemId).orElseThrow();
-        ItemsDto itemsDtos=this.modelMapper.map(items,ItemsDto.class);
-        return itemsDtos;
+        return items;
     }
 
     @Override
-    public List<ItemsDto> getAllItems() {
+    public List<Items> getAllItems() {
         List<Items> items = this.itemRepository.findAll();
-        List<ItemsDto> itemsDtos=items.stream().map((item)->this.modelMapper.map(item,ItemsDto.class)).collect(Collectors.toList());
-        return itemsDtos;
+        return items;
     }
 
     @Override
-    public List<ItemsDto> getAllItemsByUser(User user) {
+    public List<Items> getAllItemsByUser(User user) {
         List<Items> items=this.itemRepository.findByUser(user);
-        List<ItemsDto> itemsDtos=items.stream().map((item)->this.modelMapper.map(item,ItemsDto.class)).collect(Collectors.toList());
 
-        return itemsDtos;
+        return items;
     }
 
     @Override
-    public List<ItemsDto> getAllItemByCategory(Integer categoryId) {
+    public List<Items> getAllItemByCategory(Integer categoryId) {
         Categories categories = this.categoryRepository.findById(categoryId).orElseThrow();
         List<Items> items=this.itemRepository.findByCategory(categories);
-        List<ItemsDto> itemsDtos=items.stream().map((item)->this.modelMapper.map(item,ItemsDto.class)).collect(Collectors.toList());
 
-        return itemsDtos;
+        return items;
     }
 }

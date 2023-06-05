@@ -1,8 +1,7 @@
 package com.example.shoping.controller;
 
 import java.util.*;
-import com.example.shoping.dto.ItemsDto;
-import com.example.shoping.dto.UserDto;
+
 import com.example.shoping.entities.Items;
 import com.example.shoping.entities.User;
 import com.example.shoping.repositories.UserRepository;
@@ -23,20 +22,20 @@ public class ItemsController {
     @Autowired
     private UserRepository userRepository;
     @PostMapping("/")
-    public ResponseEntity<ItemsDto> createItem(@RequestBody ItemBody itemBody){
-        ItemsDto itemsDto1=this.itemService.createItem(itemBody);
+    public ResponseEntity<Items> createItem(@RequestBody ItemBody itemBody){
+        Items itemsDto1=this.itemService.createItem(itemBody);
         return ResponseEntity.ok(itemsDto1);
 
 
     }
     @PutMapping("/stock/{itemId}/quantity/{quantity}")
-    public ResponseEntity<ItemsDto> updateStockItem(@PathVariable Integer itemId, @PathVariable Integer quantity){
-        ItemsDto itemsDto1=this.itemService.updateStock(quantity,itemId);
+    public ResponseEntity<Items> updateStockItem(@PathVariable Integer itemId, @PathVariable Integer quantity){
+        Items itemsDto1=this.itemService.updateStock(quantity,itemId);
         return ResponseEntity.ok(itemsDto1);
     }
     @PutMapping("/{itemId}")
-    public ResponseEntity<ItemsDto> updateItem(@PathVariable Integer itemId,@RequestBody ItemsDto itemsDto ){
-        ItemsDto itemsDto1=this.itemService.updateItem(itemId,itemsDto);
+    public ResponseEntity<Items> updateItem(@PathVariable Integer itemId,@RequestBody Items itemsDto ){
+        Items itemsDto1=this.itemService.updateItem(itemId,itemsDto);
         return ResponseEntity.ok(itemsDto1);
     }
     @DeleteMapping("/{itemId}")
@@ -46,23 +45,23 @@ public class ItemsController {
         return ResponseEntity.ok("success");
     }
     @GetMapping("/all")
-    public ResponseEntity<List<ItemsDto>> getAllItem(){
-        List<ItemsDto> itemsDtos=this.itemService.getAllItems();
+    public ResponseEntity<List<Items>> getAllItem(){
+        List<Items> itemsDtos=this.itemService.getAllItems();
         return ResponseEntity.ok(itemsDtos);
     }
     @GetMapping("/item/{itemId}")
-    public ItemsDto getByIdItem(@PathVariable Integer itemId){
-        ItemsDto itemsDto=this.itemService.getItemById(itemId);
+    public Items getByIdItem(@PathVariable Integer itemId){
+        Items itemsDto=this.itemService.getItemById(itemId);
         return itemsDto;
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<ItemsDto>> getItemsofUser(@PathVariable String userId){
+    public ResponseEntity<List<Items>> getItemsofUser(@PathVariable String userId){
         User user=this.userRepository.findById(userId).orElseThrow();
         return ResponseEntity.ok(this.itemService.getAllItemsByUser(user));
     }
     @GetMapping("/category/{categoryId}")
-    public ResponseEntity<List<ItemsDto>> getItemsByCategory(@PathVariable Integer categoryId){
+    public ResponseEntity<List<Items>> getItemsByCategory(@PathVariable Integer categoryId){
         return ResponseEntity.ok(this.itemService.getAllItemByCategory(categoryId));
     }
 }
