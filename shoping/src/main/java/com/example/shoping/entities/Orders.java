@@ -39,7 +39,7 @@ public class Orders {
     private boolean delivery=false;
     @ElementCollection
     @CollectionTable(name = "cart_value", joinColumns = @JoinColumn(name = "order_id"))
-    @Column(name = "value")
+    @Column(name = "cartId")
     private List<Integer> cartValue;
     private LocalDate createdDate;
 }

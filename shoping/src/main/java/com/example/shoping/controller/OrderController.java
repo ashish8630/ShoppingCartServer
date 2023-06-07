@@ -22,10 +22,22 @@ public class OrderController {
         return new ResponseEntity<>(orders, HttpStatus.CREATED);
     }
     @PutMapping("cancel/{orderId}")
+    @CrossOrigin(value = "**")
     public ResponseEntity<Orders> cancelOrder(@PathVariable Integer orderId){
         Orders orders=this.orderService.cancelOrder(orderId);
         return new ResponseEntity<>(orders,HttpStatus.OK);
     }
+
+    @GetMapping("/notDelivered/{userId}")
+    public ResponseEntity<List<Orders>> getAllNotDeliveredOrders(@PathVariable String userId){
+        List<Orders> orders=this.orderService.getActiveAndUndeliveredOrdersByUser(userId);
+        return new ResponseEntity<>(orders,HttpStatus.OK);
+    }
+
+    //Future Works
+
+
+
     @PutMapping("delivery/{orderId}")
     public ResponseEntity<Orders> deliverOrder(@PathVariable Integer orderId){
         Orders orders=this.orderService.seDeliveryStatus(orderId);
@@ -36,11 +48,7 @@ public class OrderController {
         List<Orders> orders=this.orderService.getActiveAndDeliveredOrdersByUser(userId);
         return new ResponseEntity<>(orders,HttpStatus.OK);
     }
-    @GetMapping("/notDelivered/{userId}")
-    public ResponseEntity<List<Orders>> getAllNotDeliveredOrders(@PathVariable String userId){
-        List<Orders> orders=this.orderService.getActiveAndUndeliveredOrdersByUser(userId);
-        return new ResponseEntity<>(orders,HttpStatus.OK);
-    }
+
     @GetMapping("/")
     public ResponseEntity<List<Orders>> getAllActiveOrders(){
         List<Orders> orders=this.orderService.getAllActiveOrders();

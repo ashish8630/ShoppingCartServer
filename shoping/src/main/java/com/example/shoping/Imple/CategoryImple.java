@@ -12,14 +12,7 @@ import java.util.List;
 public class CategoryImple implements CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
-    @Override
-    public Categories createCategory(CategoryBody categoryBody) {
-        String name=categoryBody.getName();
-        Categories categories=new Categories();
-        categories.setName(name);
-        Categories categories1=this.categoryRepository.save(categories);
-        return categories1;
-    }
+
 
     @Override
     public List<Categories> allCategories() {
@@ -32,6 +25,18 @@ public class CategoryImple implements CategoryService {
         Categories categories=this.categoryRepository.findById(id).orElseThrow();
         return categories;
     }
+
+
+    //Future Works
+    @Override
+    public Categories createCategory(CategoryBody categoryBody) {
+        String name=categoryBody.getName();
+        Categories categories=new Categories();
+        categories.setName(name);
+        Categories categories1=this.categoryRepository.save(categories);
+        return categories1;
+    }
+
 
     @Override
     public void delete(Integer id) {

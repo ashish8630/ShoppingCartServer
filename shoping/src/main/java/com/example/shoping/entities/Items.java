@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,7 +23,7 @@ public class Items {
     private String name;
     private String description;
     private Integer stockQuantity;
-    @Column(length = 10000)
+    @Column(length = 100000)
     private String imageUrl;
     private double price;
     @ManyToOne(fetch = FetchType.LAZY)

@@ -25,7 +25,6 @@ public class CartController {
     public ResponseEntity<Cart> updateCartQuantity(@PathVariable Integer cartId, @PathVariable Integer quantity){
         Cart cart=this.cartService.updateCartQuantity(cartId,quantity);
         return ResponseEntity.ok(cart);
-
     }
     @PutMapping("/disable/{cartId}")
     @CrossOrigin(value = "**")

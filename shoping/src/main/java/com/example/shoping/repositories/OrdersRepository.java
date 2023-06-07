@@ -10,6 +10,9 @@ import java.util.*;
 public interface OrdersRepository  extends JpaRepository<Orders,Integer> {
     @Query("SELECT o FROM Orders o WHERE o.isActive = true AND o.delivery = false AND o.user = :user")
     List<Orders> findActiveNotDeliveredOrdersByUser(User user);
+
+
+    // Future Works
     @Query("SELECT o FROM Orders o WHERE o.isActive = true AND o.delivery = true AND o.user = :user")
     List<Orders> findActiveDeliveredOrdersByUser(User user);
     @Query("SELECT o FROM Orders o WHERE o.isActive = true")

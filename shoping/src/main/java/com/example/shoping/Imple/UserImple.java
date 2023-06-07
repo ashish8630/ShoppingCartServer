@@ -4,6 +4,7 @@ package com.example.shoping.Imple;
 import com.example.shoping.entities.User;
 import com.example.shoping.repositories.UserRepository;
 import com.example.shoping.services.UserService;
+import com.example.shoping.utils.UserBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,38 @@ public class UserImple implements UserService {
         return createdUser;
     }
 
+
+    @Override
+    public User getUserByEmail(String email) {
+        try{
+            User user=this.userRepository.findByEmail(email);
+            if(user!=null){
+                return  user;
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return null;
+    }
+
+    public User login(UserBody userBody) {
+        String email = userBody.getEmail();
+        String password = userBody.getPassword();
+        BCryptPasswordEncoder b=new BCryptPasswordEncoder();
+
+        User user = userRepository.findByEmail(email);
+        String encodedPassword=user.getPassword();
+        boolean passwordsMatch = b.matches(password, encodedPassword);
+        if (user != null && passwordsMatch) {
+            return user;
+        } else {
+            return null;
+        }
+    }
+
+
+    //Future works
+
     @Override
     public User updateUserById(User userDto, String userId) {
         User user=this.userRepository.findById(userId).orElseThrow();
@@ -39,45 +72,12 @@ public class UserImple implements UserService {
         return updateUser;
     }
 
+
     @Override
     public User getUserById(String id) {
         User user=this.userRepository.findById(id).orElseThrow();
         return user;
-
     }
 
-    @Override
-    public User getUserByEmail(String email) {
-        try{
-            User user=this.userRepository.findByEmail(email);
-            if(user!=null){
-                return  user;
-            }
-        } catch (Exception e) {
-return null;        }
 
-        return null;
-    }
-
-    public User login(User userDto) {
-        String email = userDto.getEmail();
-        String password = userDto.getPassword();
-        BCryptPasswordEncoder b=new BCryptPasswordEncoder();
-
-
-        // Find user by email
-        User user = userRepository.findByEmail(email);
-        String encodedPassword=user.getPassword();
-        boolean passwordsMatch = b.matches(password, encodedPassword);
-        if (user != null && passwordsMatch) {
-            userDto.setRole(user.getRole());
-            userDto.setName(user.getName());
-            userDto.setUserId(user.getUserId());
-
-
-            return userDto;
-        } else {
-            return null;
-        }
-    }
 }

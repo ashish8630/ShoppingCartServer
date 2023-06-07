@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.InputStream;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -15,7 +17,8 @@ public class ItemBody {
     private String description;
     private Integer stockQuantity;
     private double price;
-    private String imageUrl;
     private String userId;
     private Integer categoryId;
+    private String fileName;
+    private InputStream is;
 }

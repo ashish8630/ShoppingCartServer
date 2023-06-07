@@ -14,6 +14,18 @@ import java.util.*;
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Categories> getCategoryById(@PathVariable Integer id){
+        Categories categories=this.categoryService.getCategoryById(id);
+        return new ResponseEntity<>(categories, HttpStatus.CREATED);
+    }
+
+
+
+
+//    Future Works
+
     @PostMapping("/")
     public ResponseEntity<Categories> createNewCategory(@RequestBody CategoryBody categoryBody){
         Categories categories=this.categoryService.createCategory(categoryBody);
@@ -24,11 +36,7 @@ public class CategoryController {
         List<Categories> categories=this.categoryService.allCategories();
         return new ResponseEntity<>(categories, HttpStatus.CREATED);
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<Categories> getCategoryById(@PathVariable Integer id){
-        Categories categories=this.categoryService.getCategoryById(id);
-        return new ResponseEntity<>(categories, HttpStatus.CREATED);
-    }
+
     @DeleteMapping("/{id}")
     public void deleteCategory(@PathVariable Integer id){
         this.categoryService.delete(id);

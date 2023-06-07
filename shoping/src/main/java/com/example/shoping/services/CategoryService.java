@@ -6,8 +6,11 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 @Service
 public interface CategoryService {
-    Categories createCategory(CategoryBody categoryBody);
+
     List<Categories> allCategories();
     Categories getCategoryById(Integer id);
+
+    //Future Works
+    Categories createCategory(CategoryBody categoryBody);
     void delete(Integer id);
 }

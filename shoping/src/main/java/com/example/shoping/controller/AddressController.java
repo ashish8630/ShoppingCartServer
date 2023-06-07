@@ -19,16 +19,23 @@ public class AddressController {
         Address address=this.addressService.createNewAddress(addressBody);
         return ResponseEntity.ok(address);
     }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Address>> getAddressUser(@PathVariable String userId){
+        return ResponseEntity.ok(this.addressService.getAllAddressByUser(userId));
+    }
+
+    //Future Works
+
     @PutMapping("/{addressId}")
     public ResponseEntity<Address> updateAddress(@PathVariable Integer addressId, @RequestBody AddressBody addressBody){
         Address address=this.addressService.updateAddress(addressBody,addressId);
         return ResponseEntity.ok(address);
     }
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Address>> getAddressUser(@PathVariable String userId){
-        return ResponseEntity.ok(this.addressService.getAllAddressByUser(userId));
-    }
+
+
     @DeleteMapping("/{addressId}")
+    @CrossOrigin(value = "**")
     public ResponseEntity<String> deleteAddress(@PathVariable Integer addressId){
         this.addressService.DeleteAddress(addressId);
         return ResponseEntity.ok("success");
